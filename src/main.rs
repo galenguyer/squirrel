@@ -11,15 +11,20 @@ fn main() {
         .add_watch(watch_dir, WatchMask::MOVED_TO)
         .expect("Failed to add watch to /run/dump1090-fa/");
 
-    println!("watches set up");
-
     let mut buffer = [0u8; 4096];
     loop {
         let events = inotify
             .read_events_blocking(&mut buffer)
             .expect("Failed to read inotify events");
         for event in events {
-            println!("Event on {:?}", event.name);
+            match event.name {
+                Some(path) => {
+                    if path.eq("aircraft.json") {
+                        println!("aircraft.json updated")
+                    }
+                }
+                _ => {}
+            }
         }
     }
 }
