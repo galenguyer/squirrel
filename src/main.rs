@@ -25,7 +25,7 @@ fn main() {
                         match read_to_string(&aircraft_file) {
                             Ok(contents) => {
                                 let file_contents: aircraft::AircraftFile = serde_json::from_str(&contents).unwrap();
-                                println!("now: {}", file_contents.now);
+                                println!("now: {}, aircraft: {}", file_contents.now, file_contents.aircraft.len());
                             }
                             Err(_) => {}
                         }
