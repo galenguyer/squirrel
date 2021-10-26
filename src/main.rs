@@ -1,5 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 use inotify::{Inotify, WatchMask};
+use serde_json::json;
 
 mod aircraft;
 
@@ -26,6 +27,10 @@ fn main() {
                             Ok(contents) => {
                                 let file_contents: aircraft::AircraftFile = serde_json::from_str(&contents).unwrap();
                                 println!("now: {}, aircraft: {}", file_contents.now, file_contents.aircraft.len());
+                                for mut aircraft in file_contents.aircraft {
+                                    aircraft["now"] = json!(file_contents.now);
+                                    println!("{:?}", aircraft);
+                                }
                             }
                             Err(_) => {}
                         }
