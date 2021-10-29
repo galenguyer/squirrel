@@ -1,0 +1,11 @@
+[Unit]
+Description=Squirrel
+After=network.target dump1090-fa.service
+
+[Service]
+Type=simple
+EnvironmentFile=/home/pi/squirrel/.env
+ExecStart=/home/pi/squirrel/squirrel
+
+[Install]
+WantedBy=multi-user.target
