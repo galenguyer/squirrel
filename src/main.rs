@@ -45,6 +45,12 @@ fn main() {
                                         .map(|x| {
                                             let mut a = x.clone();
                                             a["now"] = json!(file_contents.now);
+                                            match a["flight"].as_str() {
+                                                None => {}
+                                                Some(f) => {
+                                                    a["flight"] = json!(f.trim());
+                                                }
+                                            }
                                             mongodb::bson::to_document(&a).unwrap()
                                         })
                                         .collect::<Vec<Document>>(),
